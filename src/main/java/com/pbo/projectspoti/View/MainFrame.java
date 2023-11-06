@@ -19,11 +19,13 @@ public class MainFrame extends JFrame {
         cardLayout = new CardLayout();
         RegistForm registForm = new RegistForm();
         HomeScreen homeScreen = new HomeScreen();
+        MusicPlayer musicPlayer = new MusicPlayer();
         
         setLayout(cardLayout);
         
         new UserController(registForm, cardLayout, MainFrame.this.getContentPane());
         
+        add(musicPlayer);
         add(registForm, "RegisterForm");
         add(homeScreen, "HomeScreen");
         
