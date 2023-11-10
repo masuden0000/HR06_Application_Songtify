@@ -62,4 +62,28 @@ public class UserModel {
         }
         return userid;
     }
+    
+    public User getUserByUsername(String username) throws SQLException, Exception {
+        User user = null;
+        String sql = "SELECT * FROM users WHERE username=?";
+        try (PreparedStatement statement = connection.prepareStatement(sql);) {
+            statement.setString(1, username);
+            
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String userId = resultSet.getString("userid");
+                String userName = resultSet.getString("username");
+                String fullName = resultSet.getString("fullname");
+                String password = resultSet.getString("password");
+                
+                user = new User(userId, userName, fullName, password);  
+            } else {
+                throw new Exception("Username tidak ditemukan!");
+            }
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+        
+        return user;
+    }
 }
