@@ -49,6 +49,7 @@ public class RegistForm extends JPanel{
         usernameTextField.setForeground(new Color(255, 255, 255)); // Warna teks putih
         usernameTextField.setCaretColor(new Color(255, 255, 255)); // Warna kursor putih
         usernameTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border dengan warna dan ketebalan tertentu
+        usernameTextField.putClientProperty("JTextField.padding", new Insets(5, 10, 5, 5)); // Membuat padding antara text dengan border
         usernameTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -77,6 +78,7 @@ public class RegistForm extends JPanel{
         fullnameTextField.setForeground(new Color(255, 255, 255)); // Warna teks putih
         fullnameTextField.setCaretColor(new Color(255, 255, 255)); // Warna kursor putih
         fullnameTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border dengan warna dan ketebalan tertentu
+        fullnameTextField.putClientProperty("JTextField.padding", new Insets(5, 10, 5, 5)); // Membuat padding antara text dengan border
         fullnameTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -105,6 +107,7 @@ public class RegistForm extends JPanel{
         passwordTextField.setForeground(new Color(255, 255, 255)); // Warna teks putih
         passwordTextField.setCaretColor(new Color(255, 255, 255)); // Warna kursor putih
         passwordTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border dengan warna dan ketebalan tertentu
+        passwordTextField.putClientProperty("JTextField.padding", new Insets(5, 10, 5, 5)); // Membuat padding antara text dengan border
         passwordTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
