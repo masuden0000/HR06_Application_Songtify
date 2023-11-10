@@ -8,6 +8,7 @@ import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.pbo.projectspoti.Model.Database;
 import com.pbo.projectspoti.Model.UserModel;
 import com.pbo.projectspoti.Model.User;
+import com.pbo.projectspoti.View.LoginApp;
 import com.pbo.projectspoti.View.RegistForm;
 import java.awt.CardLayout;
 import java.awt.Container;
@@ -24,10 +25,11 @@ public class UserController {
     private Connection connect;
     private UserModel model;
     private RegistForm registForm;
+    private LoginApp loginApp;
     private CardLayout cardLayout;
     private Container container;
     
-    public UserController(RegistForm registForm, CardLayout cardLayout, Container container) {
+    public UserController(RegistForm registForm, LoginApp loginApp, CardLayout cardLayout, Container container) {
         // Setup database
         this.database = Database.getInstance();
         this.connect = database.getConnection();
@@ -37,6 +39,7 @@ public class UserController {
         
         this.model = new UserModel(this.connect);
         this.registForm = registForm;
+        this.loginApp = loginApp;
         
         this.registForm.submitUsers(e -> {
             String userid = "user-" + NanoIdUtils.randomNanoId();
@@ -76,6 +79,39 @@ public class UserController {
             this.registForm.reset(true);
             // navigate to HomeScreen
             this.cardLayout.show(container, "HomeScreen");
+        });
+
+        this.loginApp.loginUsers(e -> {
+            String username = this.loginApp.getUsername().trim();
+            String password = this.loginApp.getPassword().trim();
+            
+            // Check database
+            try {
+                User user = this.model.getUserByUsername(username);
+                String usn = user.getUsername();
+                String pswd = user.getPassword();
+                if(!username.equals(usn)) {
+//                    System.out.println("salah username");
+                    throw new SQLException();
+                }
+                if(!password.equals(pswd)) {
+//                    System.out.println("beda pass");
+                    throw new NullPointerException();      
+                }
+                JOptionPane.showMessageDialog(this.loginApp, "Sukses!", "Berhasil",
+                        JOptionPane.PLAIN_MESSAGE);
+                return;
+            } catch (SQLException er) {
+                System.out.println(er.getMessage());
+                JOptionPane.showMessageDialog(this.loginApp, "Username tidak ditemukan!", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            } catch (NullPointerException err) {
+                System.out.println(err.getMessage());
+                JOptionPane.showMessageDialog(this.loginApp, "Password salah!", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         });
     }
 }

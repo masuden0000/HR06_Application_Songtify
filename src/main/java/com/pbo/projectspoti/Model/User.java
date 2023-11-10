@@ -23,6 +23,10 @@ public class User {
         this.password = password;
     }
 
+    User() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     // getters
     public String getUserId() {
         return userId;
@@ -38,5 +42,22 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+    
+    // setters
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+    
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

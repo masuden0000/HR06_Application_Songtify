@@ -4,27 +4,35 @@
  */
 package com.pbo.projectspoti.View;
 
+/**
+ *
+ * @author Lenovo
+ */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;  
+import javax.swing.border.EmptyBorder;
 
-/**
- *
- * @author User
- */
-public class RegistForm extends JPanel{
-    public static boolean isRegistered = false;
-    
+public class LoginApp extends JPanel {
     private JTextField usernameTextField;
-    private JTextField fullnameTextField;
     private JPasswordField passwordTextField;
     
-    private JButton registerButton;
+    private JButton loginButton;
     
-    public RegistForm() {
+    public LoginApp() {
         // instantiate layout class
         GridBagLayout grid = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
+        
+        // header
+        JPanel panelHead = new JPanel(new BorderLayout());
+        panelHead.setBackground(new Color(0, 0, 0));
+        panelHead.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0 ));
+        JLabel labelHead = new JLabel("Login");
+        labelHead.setForeground(new Color(255, 255, 255));
+        labelHead.setFont(new Font("Arial", Font.BOLD, 24));
+        
+        panelHead.add(labelHead, BorderLayout.NORTH);
         
         // Username TextField
         JPanel panel = new JPanel(new BorderLayout());
@@ -54,38 +62,10 @@ public class RegistForm extends JPanel{
         panel.add(label, BorderLayout.NORTH);
         panel.add(usernameTextField, BorderLayout.CENTER);
         
-         // Fullname TextField
+        // Password TextField
         JPanel panel1 = new JPanel(new BorderLayout());
         panel1.setBackground(new Color(0, 0, 0));
         panel1.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0 ));
-        JLabel label1 = new JLabel("Fullname");
-        label1.setForeground(new Color(255, 255, 255));
-        fullnameTextField = new JTextField(20);
-        fullnameTextField.setPreferredSize(new Dimension(200, 40));
-        fullnameTextField.setFont(new Font("Arial", Font.PLAIN, 16)); // Ganti jenis huruf dan ukuran
-        fullnameTextField.setBackground(new Color(30, 30, 30)); // Latar belakang hitam
-        fullnameTextField.setForeground(new Color(255, 255, 255)); // Warna teks putih
-        fullnameTextField.setCaretColor(new Color(255, 255, 255)); // Warna kursor putih
-        fullnameTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border dengan warna dan ketebalan tertentu
-        fullnameTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                fullnameTextField.setBorder(BorderFactory.createLineBorder(new Color(29, 185, 84), 2, true)); // Border berwarna saat fokus
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                fullnameTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border awal saat hilang fokus
-            }
-        });
-        
-        panel1.add(label1, BorderLayout.NORTH);
-        panel1.add(fullnameTextField, BorderLayout.CENTER);
-        
-        // Password TextField
-        JPanel panel2 = new JPanel(new BorderLayout());
-        panel2.setBackground(new Color(0, 0, 0));
-        panel2.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0 ));
         JLabel label2 = new JLabel("Password");
         label2.setForeground(new Color(255, 255, 255));
         passwordTextField = new JPasswordField(20);
@@ -107,57 +87,55 @@ public class RegistForm extends JPanel{
             }
         });
         
-        panel2.add(label2, BorderLayout.NORTH);
-        panel2.add(passwordTextField, BorderLayout.CENTER);
+        panel1.add(label2, BorderLayout.NORTH);
+        panel1.add(passwordTextField, BorderLayout.CENTER);
         
         //  Button
-        registerButton = new JButton("Register");
-        registerButton.setPreferredSize(new Dimension(200, 40));
-        registerButton.setFont(new Font("Arial", Font.PLAIN, 16));
-        registerButton.setForeground(new Color(255, 255, 255));
-        registerButton.setBackground(new Color(29, 185, 84)); // Warna latar belakang hijau
+        loginButton = new JButton("Login");
+        loginButton.setPreferredSize(new Dimension(200, 40));
+        loginButton.setFont(new Font("Arial", Font.BOLD, 16));
+        loginButton.setForeground(new Color(0, 0, 0));
+        loginButton.setBackground(new Color(255, 255, 255)); // Warna latar belakang hijau
+        loginButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                loginButton.setBackground(new Color(29, 185, 84));
+                loginButton.setForeground(new Color(255, 255, 255));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                loginButton.setBackground(new Color(255, 255, 255));
+                loginButton.setForeground(new Color(0, 0, 0));
+            }
+        });
         
         // Set JFrame
         setLayout(grid);
         gbc.gridy = 0;
-        add(panel, gbc);
+        add(panelHead, gbc);
         gbc.gridy = 1;
-        add(panel1, gbc);
+        add(panel, gbc);
         gbc.gridy = 2;
-        add(panel2, gbc);
+        add(panel1, gbc);
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(registerButton, gbc);
+        add(loginButton, gbc);
         setBackground(new Color(0, 0, 0));
     }
     
-    // getters
     public String getUsername() {
         return usernameTextField.getText();
-    }
-
-    public String getFullname() {
-        return fullnameTextField.getText();
     }
     
     public String getPassword() {
         return passwordTextField.getText();
     }
-
-    public void submitUsers(ActionListener actionListener) {
-        registerButton.addActionListener(actionListener);
-    }
-
-    // reset fields
-    public void reset(boolean bln) {
-        if(bln) {
-            usernameTextField.setText("");
-            fullnameTextField.setText("");
-            passwordTextField.setText("");
-        }
+    
+    public void loginUsers(ActionListener actionListener) {
+        loginButton.addActionListener(actionListener);
     }
     
     public static void main(String[] args) {
-        RegistForm registForm = new RegistForm();
+        LoginApp login = new LoginApp();
     }
 }
