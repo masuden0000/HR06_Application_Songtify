@@ -88,27 +88,16 @@ public class UserController {
             // Check database
             try {
                 User user = this.model.getUserByUsername(username);
-                String usn = user.getUsername();
                 String pswd = user.getPassword();
-                if(!username.equals(usn)) {
-//                    System.out.println("salah username");
-                    throw new SQLException();
-                }
                 if(!password.equals(pswd)) {
-//                    System.out.println("beda pass");
-                    throw new NullPointerException();      
+                    throw new Exception("Password anda salah!");      
                 }
                 JOptionPane.showMessageDialog(this.loginApp, "Sukses!", "Berhasil",
                         JOptionPane.PLAIN_MESSAGE);
                 return;
-            } catch (SQLException er) {
+            } catch (Exception er) {
                 System.out.println(er.getMessage());
-                JOptionPane.showMessageDialog(this.loginApp, "Username tidak ditemukan!", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            } catch (NullPointerException err) {
-                System.out.println(err.getMessage());
-                JOptionPane.showMessageDialog(this.loginApp, "Password salah!", "Error",
+                JOptionPane.showMessageDialog(this.loginApp, er.getMessage(), "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }

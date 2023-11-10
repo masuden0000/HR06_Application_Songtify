@@ -27,7 +27,7 @@ public class MainFrame extends JFrame {
         new UserController(registForm, loginApp, cardLayout, MainFrame.this.getContentPane());
         
 //        add(musicPlayer);
-        add(loginApp);
+//        add(loginApp);
         add(registForm, "RegisterForm");
         add(homeScreen, "HomeScreen");
         

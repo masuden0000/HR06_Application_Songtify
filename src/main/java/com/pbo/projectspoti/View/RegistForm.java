@@ -26,6 +26,16 @@ public class RegistForm extends JPanel{
         GridBagLayout grid = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
         
+        // header
+        JPanel panelHead = new JPanel(new BorderLayout());
+        panelHead.setBackground(new Color(0, 0, 0));
+        panelHead.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0 ));
+        JLabel labelHead = new JLabel("Register");
+        labelHead.setForeground(new Color(255, 255, 255));
+        labelHead.setFont(new Font("Arial", Font.BOLD, 24));
+        
+        panelHead.add(labelHead, BorderLayout.NORTH);
+        
         // Username TextField
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(new Color(0, 0, 0));
@@ -120,12 +130,14 @@ public class RegistForm extends JPanel{
         // Set JFrame
         setLayout(grid);
         gbc.gridy = 0;
-        add(panel, gbc);
+        add(panelHead, gbc);
         gbc.gridy = 1;
-        add(panel1, gbc);
+        add(panel, gbc);
         gbc.gridy = 2;
-        add(panel2, gbc);
+        add(panel1, gbc);
         gbc.gridy = 3;
+        add(panel2, gbc);
+        gbc.gridy = 4;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add(registerButton, gbc);
         setBackground(new Color(0, 0, 0));

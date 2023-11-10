@@ -63,7 +63,7 @@ public class UserModel {
         return userid;
     }
     
-    public User getUserByUsername(String username) throws SQLException {
+    public User getUserByUsername(String username) throws SQLException, Exception {
         User user = null;
         String sql = "SELECT * FROM users WHERE username=?";
         try (PreparedStatement statement = connection.prepareStatement(sql);) {
@@ -78,7 +78,7 @@ public class UserModel {
                 
                 user = new User(userId, userName, fullName, password);  
             } else {
-                throw new SQLException();
+                throw new Exception("Username tidak ditemukan!");
             }
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
