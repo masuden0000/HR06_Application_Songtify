@@ -10,32 +10,21 @@ import com.pbo.projectspoti.Model.UserModel;
 import com.pbo.projectspoti.Model.User;
 import com.pbo.projectspoti.View.LoginApp;
 import com.pbo.projectspoti.View.RegistForm;
-import java.awt.CardLayout;
-import java.awt.Container;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author User
- */
 public class UserController {
     private Database database;
     private Connection connect;
     private UserModel model;
     private RegistForm registForm;
     private LoginApp loginApp;
-    private CardLayout cardLayout;
-    private Container container;
     
-    public UserController(RegistForm registForm, LoginApp loginApp, CardLayout cardLayout, Container container) {
-        // Setup database
+    public UserController(RegistForm registForm, LoginApp loginApp) {
+        // Pengaturan database
         this.database = Database.getInstance();
         this.connect = database.getConnection();
-        // Setup layout for navigation
-        this.cardLayout = cardLayout;
-        this.container = container;
         
         this.model = new UserModel(this.connect);
         this.registForm = registForm;
@@ -48,7 +37,7 @@ public class UserController {
             String fullname = this.registForm.getFullname().trim();
             String password = this.registForm.getPassword().trim();
             
-            // simple validations
+            // Validasi
             if(username.isEmpty()) {
                 JOptionPane.showMessageDialog(this.registForm, "Username Required.", "Error",
                         JOptionPane.ERROR_MESSAGE);
@@ -77,8 +66,6 @@ public class UserController {
             RegistForm.isRegistered = true;
             
             this.registForm.reset(true);
-            // navigate to HomeScreen
-            this.cardLayout.show(container, "HomeScreen");
         });
 
         this.loginApp.loginUsers(e -> {

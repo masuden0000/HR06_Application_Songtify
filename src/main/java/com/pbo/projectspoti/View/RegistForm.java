@@ -1,152 +1,187 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.pbo.projectspoti.View;
 
+import com.formdev.flatlaf.FlatClientProperties;
+import com.pbo.projectspoti.Controller.FormsManager;
+import net.miginfocom.swing.MigLayout;
+import com.pbo.projectspoti.View.Component.PasswordStrengthStatus;
+
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;  
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-/**
- *
- * @author User
- */
-public class RegistForm extends JPanel{
+public class RegistForm extends JPanel {
+
     public static boolean isRegistered = false;
-    
-    private JTextField usernameTextField;
-    private JTextField fullnameTextField;
-    private JPasswordField passwordTextField;
-    
-    private JButton registerButton;
-    
+
     public RegistForm() {
-        // instantiate layout class
-        GridBagLayout grid = new GridBagLayout();
-        GridBagConstraints gbc = new GridBagConstraints();
-        
-        // header
-        JPanel panelHead = new JPanel(new BorderLayout());
-        panelHead.setBackground(new Color(0, 0, 0));
-        panelHead.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0 ));
-        JLabel labelHead = new JLabel("Register");
-        labelHead.setForeground(new Color(255, 255, 255));
-        labelHead.setFont(new Font("Arial", Font.BOLD, 24));
-        
-        panelHead.add(labelHead, BorderLayout.NORTH);
-        
-        // Username TextField
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(new Color(0, 0, 0));
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0 ));
-        JLabel label = new JLabel("Username:");
-        label.setForeground(new Color(255, 255, 255));
-        usernameTextField = new JTextField(20);
-        usernameTextField.setPreferredSize(new Dimension(200, 40));
-        usernameTextField.setFont(new Font("Arial", Font.PLAIN, 16)); // Ganti jenis huruf dan ukuran
-        usernameTextField.setBackground(new Color(30, 30, 30)); // Latar belakang hitam
-        usernameTextField.setForeground(new Color(255, 255, 255)); // Warna teks putih
-        usernameTextField.setCaretColor(new Color(255, 255, 255)); // Warna kursor putih
-        usernameTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border dengan warna dan ketebalan tertentu
-        usernameTextField.putClientProperty("JTextField.padding", new Insets(5, 10, 5, 5)); // Membuat padding antara text dengan border
-        usernameTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                usernameTextField.setBorder(BorderFactory.createLineBorder(new Color(29, 185, 84), 2, true)); // Border berwarna saat fokus
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                usernameTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border awal saat hilang fokus
-            }
-        });
-        
-        panel.add(label, BorderLayout.NORTH);
-        panel.add(usernameTextField, BorderLayout.CENTER);
-        
-         // Fullname TextField
-        JPanel panel1 = new JPanel(new BorderLayout());
-        panel1.setBackground(new Color(0, 0, 0));
-        panel1.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0 ));
-        JLabel label1 = new JLabel("Fullname");
-        label1.setForeground(new Color(255, 255, 255));
-        fullnameTextField = new JTextField(20);
-        fullnameTextField.setPreferredSize(new Dimension(200, 40));
-        fullnameTextField.setFont(new Font("Arial", Font.PLAIN, 16)); // Ganti jenis huruf dan ukuran
-        fullnameTextField.setBackground(new Color(30, 30, 30)); // Latar belakang hitam
-        fullnameTextField.setForeground(new Color(255, 255, 255)); // Warna teks putih
-        fullnameTextField.setCaretColor(new Color(255, 255, 255)); // Warna kursor putih
-        fullnameTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border dengan warna dan ketebalan tertentu
-        fullnameTextField.putClientProperty("JTextField.padding", new Insets(5, 10, 5, 5)); // Membuat padding antara text dengan border
-        fullnameTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                fullnameTextField.setBorder(BorderFactory.createLineBorder(new Color(29, 185, 84), 2, true)); // Border berwarna saat fokus
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                fullnameTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border awal saat hilang fokus
-            }
-        });
-        
-        panel1.add(label1, BorderLayout.NORTH);
-        panel1.add(fullnameTextField, BorderLayout.CENTER);
-        
-        // Password TextField
-        JPanel panel2 = new JPanel(new BorderLayout());
-        panel2.setBackground(new Color(0, 0, 0));
-        panel2.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0 ));
-        JLabel label2 = new JLabel("Password");
-        label2.setForeground(new Color(255, 255, 255));
-        passwordTextField = new JPasswordField(20);
-        passwordTextField.setPreferredSize(new Dimension(200, 40));
-        passwordTextField.setFont(new Font("Arial", Font.PLAIN, 16)); // Ganti jenis huruf dan ukuran
-        passwordTextField.setBackground(new Color(30, 30, 30)); // Latar belakang hitam
-        passwordTextField.setForeground(new Color(255, 255, 255)); // Warna teks putih
-        passwordTextField.setCaretColor(new Color(255, 255, 255)); // Warna kursor putih
-        passwordTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border dengan warna dan ketebalan tertentu
-        passwordTextField.putClientProperty("JTextField.padding", new Insets(5, 10, 5, 5)); // Membuat padding antara text dengan border
-        passwordTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                passwordTextField.setBorder(BorderFactory.createLineBorder(new Color(29, 185, 84), 2, true)); // Border berwarna saat fokus
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                passwordTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border awal saat hilang fokus
-            }
-        });
-        
-        panel2.add(label2, BorderLayout.NORTH);
-        panel2.add(passwordTextField, BorderLayout.CENTER);
-        
-        //  Button
-        registerButton = new JButton("Register");
-        registerButton.setPreferredSize(new Dimension(200, 40));
-        registerButton.setFont(new Font("Arial", Font.PLAIN, 16));
-        registerButton.setForeground(new Color(255, 255, 255));
-        registerButton.setBackground(new Color(29, 185, 84)); // Warna latar belakang hijau
-        
-        // Set JFrame
-        setLayout(grid);
-        gbc.gridy = 0;
-        add(panelHead, gbc);
-        gbc.gridy = 1;
-        add(panel, gbc);
-        gbc.gridy = 2;
-        add(panel1, gbc);
-        gbc.gridy = 3;
-        add(panel2, gbc);
-        gbc.gridy = 4;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(registerButton, gbc);
-        setBackground(new Color(0, 0, 0));
+        init();
     }
     
-    // getters
+        public static void main(String[] args) {
+        RegistForm registForm = new RegistForm();
+    }
+
+    // GUI
+    private void init() {
+        // Mengatur layout kontainer utama
+        setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
+
+        // Inisiasi komponen
+        fullnameTextField = new JTextField();
+        usernameTextField = new JTextField();
+        passwordTextField = new JPasswordField();
+        confirmPassword = new JPasswordField();
+        registerButton = new JButton("Sign Up");
+        passwordStrengthStatus = new PasswordStrengthStatus();
+
+        // Membuat kontainer untuk form register
+        JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 45", "[fill,360]"));
+        // Memberikan warna panel lebih terang dibanding background-nya sesuai tema Light dan Dark
+        panel.putClientProperty(FlatClientProperties.STYLE, ""
+                + "arc:20;"
+                + "[light]background:darken(@background,3%);"
+                + "[dark]background:lighten(@background,3%)");
+
+        // Membuat judul dan deksripsi form register
+        JLabel lbTitle = new JLabel("Welcome to Sprotify");
+        JLabel description = new JLabel("Sign up and enjoy a variety of your favorite music playlists");
+        lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
+                + "font:bold +10");
+        description.putClientProperty(FlatClientProperties.STYLE, ""
+                + "[light]foreground:lighten(@foreground,30%);"
+                + "[dark]foreground:darken(@foreground,30%)");
+
+        // Styling field 
+        fullnameTextField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "First name");
+        usernameTextField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your username or email");
+        passwordTextField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your password");
+        confirmPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Re-enter your password");
+        passwordTextField.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton:true");
+        confirmPassword.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton:true");
+        // Styling tombol register
+        registerButton.putClientProperty(FlatClientProperties.STYLE, ""
+                + "[light]background:darken(@background,10%);"
+                + "[dark]background:lighten(@background,10%);"
+                + "borderWidth:0;"
+                + "focusWidth:0;"
+                + "innerFocusWidth:0");
+        Color originalBackgroundColor = (Color) UIManager.get("Button.background");
+        registerButton.putClientProperty("originalBackground", originalBackgroundColor);
+        registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        // Memanggil method untuk mengecek kekuatan password
+        passwordStrengthStatus.initPasswordField(passwordTextField);
+
+        // Hover tombol register
+        registerButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // Mouse masuk ke tombol
+                registerButton.setBackground(new Color(14, 246, 68));
+                registerButton.setForeground(new Color(0, 0, 0));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // Mouse keluar dari tombol, kembalikan ke warna awal
+                registerButton.setBackground((Color) registerButton.getClientProperty("originalBackground"));
+                registerButton.setForeground(new Color(255, 255, 255));
+            }
+        });
+
+        // Pop-up
+        JFrame frame = new JFrame("Form Example");
+
+        // Reset field
+        registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Mengosongkan JTextField setelah tombol submit ditekan
+                fullnameTextField.setText("");
+                usernameTextField.setText("");
+                passwordTextField.setText("");
+                confirmPassword.setText("");
+
+                checklist = new ImageIcon("src\\main\\resources\\icons\\checklist.png");
+                JOptionPane.showMessageDialog(frame, "Successful Registration", "Success", JOptionPane.INFORMATION_MESSAGE, checklist);
+            }
+        });
+
+        // Menambahkan komponen ke panel
+        panel.add(lbTitle);
+        panel.add(description);
+        panel.add(new JLabel("Full Name"), "gapy 10");
+        panel.add(fullnameTextField, "gapy 8");
+        panel.add(new JLabel("Gender"), "gapy 8");
+        panel.add(createGenderPanel());
+        panel.add(new JSeparator(), "gapy 5 5");
+        panel.add(new JLabel("Email"));
+        panel.add(usernameTextField);
+        panel.add(new JLabel("Password"), "gapy 8");
+        panel.add(passwordTextField);
+        panel.add(passwordStrengthStatus, "gapy 0");
+        panel.add(new JLabel("Confirm Password"), "gapy 0");
+        panel.add(confirmPassword);
+        panel.add(registerButton, "gapy 20");
+        panel.add(createLoginLabel(), "gapy 10");
+        add(panel);
+    }
+
+    // Membuat checkbox gender options
+    private Component createGenderPanel() {
+        JPanel panel = new JPanel(new MigLayout("insets 0"));
+        panel.putClientProperty(FlatClientProperties.STYLE, ""
+                + "background:null");
+        jrMale = new JRadioButton("Male");
+        jrFemale = new JRadioButton("Female");
+        groupGender = new ButtonGroup();
+        groupGender.add(jrMale);
+        groupGender.add(jrFemale);
+        jrMale.setSelected(true);
+        panel.add(jrMale);
+        panel.add(jrFemale);
+        return panel;
+    }
+
+    // Membuat tombol login
+    private Component createLoginLabel() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        panel.putClientProperty(FlatClientProperties.STYLE, ""
+                + "background:null");
+        JButton cmdLogin = new JButton("<html><a style='color: #0EF644;' href=\"#\">Sign in here</a></html>");
+        cmdLogin.putClientProperty(FlatClientProperties.STYLE, ""
+                + "border:3,3,3,3");
+        cmdLogin.setContentAreaFilled(false);
+        cmdLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        cmdLogin.addActionListener(e ->
+        {
+            FormsManager.getInstance().showForm(new LoginApp());
+        });
+        JLabel label = new JLabel("Already have an account ?");
+        label.putClientProperty(FlatClientProperties.STYLE, ""
+                + "[light]foreground:lighten(@foreground,30%);"
+                + "[dark]foreground:darken(@foreground,30%)");
+        panel.add(label);
+        panel.add(cmdLogin);
+        return panel;
+    }
+
+    // Reset fields
+    public void reset(boolean bln) {
+        if (bln)
+        {
+            usernameTextField.setText("");
+            fullnameTextField.setText("");
+            passwordTextField.setText("");
+        }
+    }
+
+    //Metode
     public String getUsername() {
         return usernameTextField.getText();
     }
@@ -154,7 +189,7 @@ public class RegistForm extends JPanel{
     public String getFullname() {
         return fullnameTextField.getText();
     }
-    
+
     public String getPassword() {
         return passwordTextField.getText();
     }
@@ -163,16 +198,15 @@ public class RegistForm extends JPanel{
         registerButton.addActionListener(actionListener);
     }
 
-    // reset fields
-    public void reset(boolean bln) {
-        if(bln) {
-            usernameTextField.setText("");
-            fullnameTextField.setText("");
-            passwordTextField.setText("");
-        }
-    }
-    
-    public static void main(String[] args) {
-        RegistForm registForm = new RegistForm();
-    }
+    // Deklarasi
+    private JTextField fullnameTextField;
+    private JRadioButton jrMale;
+    private JRadioButton jrFemale;
+    private JTextField usernameTextField;
+    private JPasswordField passwordTextField;
+    private JPasswordField confirmPassword;
+    private ButtonGroup groupGender;
+    private JButton registerButton;
+    private PasswordStrengthStatus passwordStrengthStatus;
+    private Icon checklist;
 }
