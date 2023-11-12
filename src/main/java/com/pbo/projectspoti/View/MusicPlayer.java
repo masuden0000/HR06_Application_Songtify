@@ -9,6 +9,8 @@ package com.pbo.projectspoti.View;
  * @author User
  */
 
+import com.pbo.projectspoti.Model.Playlist;
+import com.pbo.projectspoti.Model.Song;
 import javazoom.jl.player.Player;
 
 import javax.swing.*;
@@ -48,6 +50,57 @@ public class MusicPlayer extends JPanel implements ActionListener {
     final private ExecutorService executorService = Executors.newFixedThreadPool(1, threadFactory);
     final private ExecutorService executorProgress = Executors.newFixedThreadPool(1, threadFactory);
     
+    public void PlayNew(List<Song> songs, String songId) {
+        play.doClick();
+        player.close();
+        
+        isStart = true;
+        
+        files = new ArrayList();
+        
+        byte counter = 0;
+        
+        for (Song song : songs) {
+            if(songId.equals(song.getSongId())) {
+                System.out.println("yg di play");
+                files.add(counter, new File(song.getPath()));
+                counter++;
+            } else if (counter > 0) {
+                System.out.println("setelah play");
+                files.add(counter, new File(song.getPath()));
+                counter++;
+            } else {
+                System.out.println("bebas");
+                files.add(new File(song.getPath()));
+            }
+        }
+        
+        myFile = files.get(order);
+        filename = files.get(order).getName();
+        filePath = files.get(order).getPath();
+        
+        play.doClick();
+    }
+    
+    public void PlayNew(Playlist playlist) {
+        play.doClick();
+        player.close();
+        
+        isStart = true;
+        
+        files = new ArrayList();
+                
+        for (Song song : playlist.getPlayList()) {
+                files.add(new File(song.getPath()));
+        }
+        
+        myFile = files.get(order);
+        filename = files.get(order).getName();
+        filePath = files.get(order).getPath();
+        
+        play.doClick();
+    }
+    
     public MusicPlayer() {
         String directoryPath = "src\\main\\resources\\music";
                         
@@ -65,7 +118,7 @@ public class MusicPlayer extends JPanel implements ActionListener {
         }
 
         initUI();
-        addActionEvents();
+        addActionEvents(); 
     }
 
     public void initUI() {
@@ -79,12 +132,12 @@ public class MusicPlayer extends JPanel implements ActionListener {
         blankPanel = new JPanel();
         infoPanel = new JPanel();
 
-        iconPlay = new ImageIcon("G:\\1ADhifan\\Downloads\\Compressed\\music-player-java-code\\music-player-java-code\\DataFlair-Mp3MusicPlayer\\music-player-icons\\play-button.png");
-        iconPause = new ImageIcon("G:\\1ADhifan\\Downloads\\Compressed\\music-player-java-code\\music-player-java-code\\DataFlair-Mp3MusicPlayer\\music-player-icons\\pause-button.png");
-        iconSkipNext = new ImageIcon("G:\\1ADhifan\\Downloads\\Compressed\\music-player-java-code\\music-player-java-code\\DataFlair-Mp3MusicPlayer\\music-player-icons\\skip-next-button.png");
-        iconSkipPrevious = new ImageIcon("G:\\1ADhifan\\Downloads\\Compressed\\music-player-java-code\\music-player-java-code\\DataFlair-Mp3MusicPlayer\\music-player-icons\\skip-previous-button.png");
-        iconNext = new ImageIcon("G:\\1ADhifan\\Downloads\\Compressed\\music-player-java-code\\music-player-java-code\\DataFlair-Mp3MusicPlayer\\music-player-icons\\next-button.png");
-        iconPrevious = new ImageIcon("G:\\1ADhifan\\Downloads\\Compressed\\music-player-java-code\\music-player-java-code\\DataFlair-Mp3MusicPlayer\\music-player-icons\\previous-button.png");
+        iconPlay = new ImageIcon("src\\main\\resources\\icons\\play-button.png");
+        iconPause = new ImageIcon("src\\main\\resources\\icons\\pause-button.png");
+        iconSkipNext = new ImageIcon("src\\main\\resources\\icons\\skip-next-button.png");
+        iconSkipPrevious = new ImageIcon("src\\main\\resources\\icons\\skip-previous-button.png");
+        iconNext = new ImageIcon("src\\main\\resources\\icons\\next-button.png");
+        iconPrevious = new ImageIcon("src\\main\\resources\\icons\\previous-button.png");
         
         UIManager.put("ProgressBar.arc", 40);
         UIManager.put("ProgressBar.background", new Color(119, 119, 119));

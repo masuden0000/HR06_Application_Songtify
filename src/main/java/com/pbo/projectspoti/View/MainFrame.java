@@ -4,6 +4,7 @@
  */
 package com.pbo.projectspoti.View;
 
+import com.pbo.projectspoti.Controller.MusicController;
 import com.pbo.projectspoti.Controller.UserController;
 import java.awt.*;
 import javax.swing.*;
@@ -21,11 +22,14 @@ public class MainFrame extends JFrame {
         HomeScreen homeScreen = new HomeScreen();
         MusicPlayer musicPlayer = new MusicPlayer();
         LoginApp loginApp = new LoginApp();
+        TestPlaylist testPlaylist = new TestPlaylist();
         
         setLayout(cardLayout);
         
         new UserController(registForm, loginApp, cardLayout, MainFrame.this.getContentPane());
+        new MusicController();
         
+        add(testPlaylist);
 //        add(musicPlayer);
 //        add(loginApp);
         add(registForm, "RegisterForm");
