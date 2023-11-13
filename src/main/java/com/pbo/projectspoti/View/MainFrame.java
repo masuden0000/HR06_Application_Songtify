@@ -29,10 +29,10 @@ public class MainFrame extends JFrame {
         new UserController(registForm, loginApp, cardLayout, MainFrame.this.getContentPane());
         new MusicController();
         
-        add(testPlaylist);
+//        add(testPlaylist);
 //        add(musicPlayer);
 //        add(loginApp);
-        add(registForm, "RegisterForm");
+//        add(registForm, "RegisterForm");
         add(homeScreen, "HomeScreen");
         
         // frame width & height
