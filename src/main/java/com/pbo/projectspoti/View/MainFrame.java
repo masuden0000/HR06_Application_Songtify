@@ -5,42 +5,50 @@
 package com.pbo.projectspoti.View;
 
 import com.pbo.projectspoti.Controller.MusicController;
-import com.pbo.projectspoti.Controller.UserController;
+import com.pbo.projectspoti.Controller.*;
 import java.awt.*;
 import javax.swing.*;
 
-/**
- *
- * @author User
- */
 public class MainFrame extends JFrame {
-    private CardLayout cardLayout;
+
     public MainFrame() {
-        super("Spotify");
-        cardLayout = new CardLayout();
-        RegistForm registForm = new RegistForm();
+        init();
+
+        // Logo program
+        Image icon = new ImageIcon("src\\main\\resources\\icons\\spotify.png").getImage();
+        this.setIconImage(icon);
+    }
+
+    private void init() {
+        // Nama aplikasi
+        setTitle("Spotify");
+        
         HomeScreen homeScreen = new HomeScreen();
-        MusicPlayer musicPlayer = new MusicPlayer();
+        add(homeScreen);
+        
+        // Membuat objek RegistForm dan LoginApp
+        RegistForm registForm = new RegistForm();
         LoginApp loginApp = new LoginApp();
-        TestPlaylist testPlaylist = new TestPlaylist();
-        
-        setLayout(cardLayout);
-        
-        new UserController(registForm, loginApp, cardLayout, MainFrame.this.getContentPane());
-        new MusicController();
-        
-//        add(testPlaylist);
-//        add(musicPlayer);
-//        add(loginApp);
-//        add(registForm, "RegisterForm");
-        add(homeScreen, "HomeScreen");
-        
-        // frame width & height
+
+        // Ukuran layar
         int FRAME_WIDTH = 1200;
         int FRAME_HEIGHT = 700;
-        // size of our application frame
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
+
+        // Tampilan halaman utama
+        setContentPane(homeScreen);
+        FormsManager.getInstance().initApplication(this);
+
+        // Membuat tampilan center pada layar pengguna
+        setLocationRelativeTo(null);
+
+        // Stop program saat exit
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Menampilkan Jframe ke layar pengguna
         setVisible(true);
+
+        // User controler
+        new UserController(registForm, loginApp);
     }
 }

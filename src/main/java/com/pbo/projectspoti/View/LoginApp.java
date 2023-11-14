@@ -1,141 +1,136 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.pbo.projectspoti.View;
 
-/**
- *
- * @author Lenovo
- */
+import com.formdev.flatlaf.FlatClientProperties;
+import com.pbo.projectspoti.Controller.FormsManager;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;  
-import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoginApp extends JPanel {
-    private JTextField usernameTextField;
-    private JPasswordField passwordTextField;
-    
-    private JButton loginButton;
-    
+
     public LoginApp() {
-        // instantiate layout class
-        GridBagLayout grid = new GridBagLayout();
-        GridBagConstraints gbc = new GridBagConstraints();
-        
-        // header
-        JPanel panelHead = new JPanel(new BorderLayout());
-        panelHead.setBackground(new Color(0, 0, 0));
-        panelHead.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0 ));
-        JLabel labelHead = new JLabel("Login");
-        labelHead.setForeground(new Color(255, 255, 255));
-        labelHead.setFont(new Font("Arial", Font.BOLD, 24));
-        
-        panelHead.add(labelHead, BorderLayout.NORTH);
-        
-        // Username TextField
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(new Color(0, 0, 0));
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0 ));
-        JLabel label = new JLabel("Username:");
-        label.setForeground(new Color(255, 255, 255));
-        usernameTextField = new JTextField(20);
-        usernameTextField.setPreferredSize(new Dimension(200, 40));
-        usernameTextField.setFont(new Font("Arial", Font.PLAIN, 16)); // Ganti jenis huruf dan ukuran
-        usernameTextField.setBackground(new Color(30, 30, 30)); // Latar belakang hitam
-        usernameTextField.setForeground(new Color(255, 255, 255)); // Warna teks putih
-        usernameTextField.setCaretColor(new Color(255, 255, 255)); // Warna kursor putih
-        usernameTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border dengan warna dan ketebalan tertentu
-        usernameTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                usernameTextField.setBorder(BorderFactory.createLineBorder(new Color(29, 185, 84), 2, true)); // Border berwarna saat fokus
-            }
+        init();
+    }
 
-            @Override
-            public void focusLost(FocusEvent e) {
-                usernameTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border awal saat hilang fokus
-            }
-        });
-        
-        panel.add(label, BorderLayout.NORTH);
-        panel.add(usernameTextField, BorderLayout.CENTER);
-        
-        // Password TextField
-        JPanel panel1 = new JPanel(new BorderLayout());
-        panel1.setBackground(new Color(0, 0, 0));
-        panel1.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0 ));
-        JLabel label2 = new JLabel("Password");
-        label2.setForeground(new Color(255, 255, 255));
-        passwordTextField = new JPasswordField(20);
-        passwordTextField.setPreferredSize(new Dimension(200, 40));
-        passwordTextField.setFont(new Font("Arial", Font.PLAIN, 16)); // Ganti jenis huruf dan ukuran
-        passwordTextField.setBackground(new Color(30, 30, 30)); // Latar belakang hitam
-        passwordTextField.setForeground(new Color(255, 255, 255)); // Warna teks putih
-        passwordTextField.setCaretColor(new Color(255, 255, 255)); // Warna kursor putih
-        passwordTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border dengan warna dan ketebalan tertentu
-        passwordTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                passwordTextField.setBorder(BorderFactory.createLineBorder(new Color(29, 185, 84), 2, true)); // Border berwarna saat fokus
-            }
+    // GUI
+    private void init() {
+        // Mengatur layout kontainer utama
+        setLayout(new MigLayout("fill", "[center]", "[center]"));
 
-            @Override
-            public void focusLost(FocusEvent e) {
-                passwordTextField.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 70), 2, true)); // Border awal saat hilang fokus
-            }
-        });
-        
-        panel1.add(label2, BorderLayout.NORTH);
-        panel1.add(passwordTextField, BorderLayout.CENTER);
-        
-        //  Button
+        // Inisiasi komponen
+        usernameTextField = new JTextField();
+        passwordTextField = new JPasswordField();
+        RememberMe = new JCheckBox("Remember me");
         loginButton = new JButton("Login");
-        loginButton.setPreferredSize(new Dimension(200, 40));
-        loginButton.setFont(new Font("Arial", Font.BOLD, 16));
-        loginButton.setForeground(new Color(0, 0, 0));
-        loginButton.setBackground(new Color(255, 255, 255)); // Warna latar belakang hijau
+
+        // Membuat kontainer untuk form login
+        JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 45", "fill,250:280"));
+        // Memberikan warna panel lebih terang dibanding background-nya sesuai tema Light dan Dark
+        panel.putClientProperty(FlatClientProperties.STYLE, ""
+                + "arc:20;"
+                + "[light]background:darken(@background,3%);"
+                + "[dark]background:lighten(@background,3%)");
+
+        // Membuat judul dan deskripsi form login
+        JLabel lbTitle = new JLabel("Welcome Back!");
+        JLabel description = new JLabel("let's explore your music world");
+        // Styling judul dan deskripsi form
+        lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
+                + "font:bold +10");
+        description.putClientProperty(FlatClientProperties.STYLE, ""
+                + "[light]foreground:lighten(@foreground,30%);"
+                + "[dark]foreground:darken(@foreground,30%)");
+
+        // Styling field username dan password
+        usernameTextField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your username or email");
+        passwordTextField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your password");
+        passwordTextField.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton:true"); // Mengaktifkan fitur show/hidden password
+        // Styling tombol login
+        loginButton.putClientProperty(FlatClientProperties.STYLE, ""
+                + "[light]background:darken(@background,10%);"
+                + "[dark]background:lighten(@background,10%);"
+                + "borderWidth:0;"
+                + "focusWidth:0;"
+                + "innerFocusWidth:0");
+        Color originalBackgroundColor = (Color) UIManager.get("Button.background");
+        loginButton.putClientProperty("originalBackground", originalBackgroundColor);
+        loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        // Hover tombol login
         loginButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                loginButton.setBackground(new Color(29, 185, 84));
-                loginButton.setForeground(new Color(255, 255, 255));
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                loginButton.setBackground(new Color(255, 255, 255));
+                // Mouse masuk ke tombol
+                loginButton.setBackground(new Color(14, 246, 68));
                 loginButton.setForeground(new Color(0, 0, 0));
             }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // Mouse keluar dari tombol, kembalikan ke warna awal
+                loginButton.setBackground((Color) loginButton.getClientProperty("originalBackground"));
+                loginButton.setForeground(new Color(255, 255, 255));
+            }
         });
-        
-        // Set JFrame
-        setLayout(grid);
-        gbc.gridy = 0;
-        add(panelHead, gbc);
-        gbc.gridy = 1;
-        add(panel, gbc);
-        gbc.gridy = 2;
-        add(panel1, gbc);
-        gbc.gridy = 3;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(loginButton, gbc);
-        setBackground(new Color(0, 0, 0));
+
+        // Menambahkan komponen ke panel
+        panel.add(lbTitle);
+        panel.add(description);
+        panel.add(new JLabel("Email"), "gapy 8");
+        panel.add(usernameTextField);
+        panel.add(new JLabel("Password"), "gapy 8");
+        panel.add(passwordTextField);
+        panel.add(RememberMe, "grow 0");
+        panel.add(loginButton, "gapy 10");
+        panel.add(createSignupLabel(), "gapy 10");
+        add(panel);
     }
-    
+
+    // Membuat tombol register
+    private Component createSignupLabel() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0)); // Membuat kontainer komponen sign-up
+        panel.putClientProperty(FlatClientProperties.STYLE, ""
+                + "background:null");
+        JButton registerButton = new JButton("<html><a style='color: #0EF644;' href=\"#\">Sign up</a></html>");
+        registerButton.setForeground(new Color(0, 255, 0));
+
+        registerButton.putClientProperty(FlatClientProperties.STYLE, ""
+                + "border:3,3,3,3");
+        registerButton.setContentAreaFilled(false);
+        registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        registerButton.addActionListener(e ->
+        {
+            FormsManager.getInstance().showForm(new RegistForm());
+        });
+        JLabel label = new JLabel("Don't have an account ?");
+        label.putClientProperty(FlatClientProperties.STYLE, ""
+                + "[light]foreground:lighten(@foreground,30%);"
+                + "[dark]foreground:darken(@foreground,30%)");
+        panel.add(label);
+        panel.add(registerButton);
+        return panel;
+    }
+
+    // Metode
     public String getUsername() {
         return usernameTextField.getText();
     }
-    
+
     public String getPassword() {
         return passwordTextField.getText();
     }
-    
+
     public void loginUsers(ActionListener actionListener) {
         loginButton.addActionListener(actionListener);
     }
-    
-    public static void main(String[] args) {
-        LoginApp login = new LoginApp();
-    }
+
+    // Deklarasi
+    private JTextField usernameTextField;
+    private JPasswordField passwordTextField;
+    private JCheckBox RememberMe;
+    private JButton loginButton;
 }
