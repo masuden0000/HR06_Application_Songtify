@@ -22,7 +22,10 @@ public class MainFrame extends JFrame {
     private void init() {
         // Nama aplikasi
         setTitle("Spotify");
-
+        
+        HomeScreen homeScreen = new HomeScreen();
+        add(homeScreen);
+        
         // Membuat objek RegistForm dan LoginApp
         RegistForm registForm = new RegistForm();
         LoginApp loginApp = new LoginApp();
@@ -33,7 +36,7 @@ public class MainFrame extends JFrame {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
 
         // Tampilan halaman utama
-        setContentPane(new LoginApp());
+        setContentPane(homeScreen);
         FormsManager.getInstance().initApplication(this);
 
         // Membuat tampilan center pada layar pengguna

@@ -141,7 +141,7 @@ public class MusicPlayer extends JPanel implements ActionListener {
         
         UIManager.put("ProgressBar.arc", 40);
         UIManager.put("ProgressBar.background", new Color(119, 119, 119));
-        UIManager.put("ProgressBar.foreground", new Color(245,245,245));
+        UIManager.put("ProgressBar.foreground", new Color(14, 242, 68));
         progress = new JProgressBar(0, 0, 100);
         progress.setPreferredSize(new Dimension(350, 7));
         
@@ -152,10 +152,11 @@ public class MusicPlayer extends JPanel implements ActionListener {
         next = new JButton(iconNext);
         previous = new JButton(iconPrevious);
         
-        buttonPanel.setLayout(new GridBagLayout());
+        buttonPanel.setLayout(new GridLayout(1, 5, 20, 10));
         buttonPanel.setBackground(new Color(0,0,0));
         progressPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         progressPanel.setBackground(new Color(0,0,0));
+        progressPanel.setBorder(BorderFactory.createEmptyBorder(0, 80, 0, 0 ));
         blankPanel.setBackground(new Color(0,0,0));
         
         buttonPanel.add(previous);
