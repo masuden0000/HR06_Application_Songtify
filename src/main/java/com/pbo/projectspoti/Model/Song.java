@@ -12,13 +12,17 @@ public class Song {
     private String songId;
     private String title;
     private String singer;
+    private String album;
+    private String duration;
     private String path;
     private String cover_url;
 
-    public Song(String songId, String title, String singer, String path, String cover_url) {
+    public Song(String songId, String title, String singer, String album, String duration, String path, String cover_url) {
         this.songId = songId;
         this.title = title;
         this.singer = singer;
+        this.album = album;
+        this.duration = duration;
         this.path = path;
         this.cover_url = cover_url;
     }
@@ -37,6 +41,14 @@ public class Song {
         return singer;
     }
 
+    public String getAlbum() {
+        return album;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+    
     public String getPath() {
         return path;
     }

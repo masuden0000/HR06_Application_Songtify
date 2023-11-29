@@ -46,4 +46,15 @@ public class Database {
     public Connection getConnection() {
         return connection;
     }
+    
+    public void closeConnection() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+                System.out.println("Koneksi ke database ditutup");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

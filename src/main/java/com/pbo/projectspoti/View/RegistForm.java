@@ -2,6 +2,7 @@ package com.pbo.projectspoti.View;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.pbo.projectspoti.Controller.FormsManager;
+import com.pbo.projectspoti.Controller.UserController;
 import net.miginfocom.swing.MigLayout;
 import com.pbo.projectspoti.View.Component.PasswordStrengthStatus;
 
@@ -11,23 +12,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import javax.swing.border.EmptyBorder;
 
 public class RegistForm extends JPanel {
 
     public static boolean isRegistered = false;
 
     public RegistForm() {
+        userController = new UserController();
+        
         init();
-    }
-    
-        public static void main(String[] args) {
-        RegistForm registForm = new RegistForm();
     }
 
     // GUI
     private void init() {
         // Mengatur layout kontainer utama
-        setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
+        setLayout(new MigLayout("fill, insets 0 20 0 0", "[center]", "[center]"));
 
         // Inisiasi komponen
         fullnameTextField = new JTextField();
@@ -37,8 +39,36 @@ public class RegistForm extends JPanel {
         registerButton = new JButton("Sign Up");
         passwordStrengthStatus = new PasswordStrengthStatus();
 
+        // Background
+        JPanel panel2 = new JPanel(new MigLayout("fill", "[center]", "[center]"));
+        JLabel backgroundLabel = new JLabel();
+
+        ImageIcon originalIcon = new ImageIcon("src\\main\\resources\\images\\background1.jpg");
+        Image originalImage = originalIcon.getImage();
+
+        // Membuat gambar dengan ukuran yang sama dengan backgroundLabel
+        int width = 900;
+        int height = 680;
+        BufferedImage roundedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        // Menggambar gambar asli ke gambar dengan sudut yang melengkung (rounded)
+        Graphics2D g2d = roundedImage.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        // Menggambar gambar dengan sudut yang melengkung
+        int cornerRadius = 0; // Atur ukuran sudut bulatan
+        RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(0, 0, width, height, cornerRadius, cornerRadius);
+        g2d.setClip(roundedRectangle);
+        g2d.drawImage(originalImage, 0, 0, width, height, null);
+        g2d.dispose();
+
+        // Mengatur gambar yang sudah diubah menjadi ikon pada backgroundLabel
+        ImageIcon roundedIcon = new ImageIcon(roundedImage);
+        backgroundLabel.setBorder(new EmptyBorder(0, 10, 0, 0));
+        backgroundLabel.setIcon(roundedIcon);
+
         // Membuat kontainer untuk form register
-        JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 45", "[fill,360]"));
+        JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 80", "[fill,360]"));
         // Memberikan warna panel lebih terang dibanding background-nya sesuai tema Light dan Dark
         panel.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:20;"
@@ -46,7 +76,7 @@ public class RegistForm extends JPanel {
                 + "[dark]background:lighten(@background,3%)");
 
         // Membuat judul dan deksripsi form register
-        JLabel lbTitle = new JLabel("Welcome to Sprotify");
+        JLabel lbTitle = new JLabel("Welcome to Songtify");
         JLabel description = new JLabel("Sign up and enjoy a variety of your favorite music playlists");
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:bold +10");
@@ -56,13 +86,15 @@ public class RegistForm extends JPanel {
 
         // Styling field 
         fullnameTextField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "First name");
-        usernameTextField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your username or email");
+        usernameTextField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your username");
         passwordTextField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your password");
         confirmPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Re-enter your password");
         passwordTextField.putClientProperty(FlatClientProperties.STYLE, ""
                 + "showRevealButton:true");
+        passwordTextField.setFont(new Font("Monospace", Font.PLAIN, 12));
         confirmPassword.putClientProperty(FlatClientProperties.STYLE, ""
                 + "showRevealButton:true");
+        confirmPassword.setFont(new Font("Monospace", Font.PLAIN, 12));
         // Styling tombol register
         registerButton.putClientProperty(FlatClientProperties.STYLE, ""
                 + "[light]background:darken(@background,10%);"
@@ -101,14 +133,16 @@ public class RegistForm extends JPanel {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Mengosongkan JTextField setelah tombol submit ditekan
-                fullnameTextField.setText("");
-                usernameTextField.setText("");
-                passwordTextField.setText("");
-                confirmPassword.setText("");
-
-                checklist = new ImageIcon("src\\main\\resources\\icons\\checklist.png");
-                JOptionPane.showMessageDialog(frame, "Successful Registration", "Success", JOptionPane.INFORMATION_MESSAGE, checklist);
+                boolean result = userController.register(
+                        usernameTextField.getText(), 
+                        fullnameTextField.getText(), 
+                        new String(passwordTextField.getPassword()), 
+                        new String(confirmPassword.getPassword())
+                );
+                
+                if (result) {
+                    reset();
+                }
             }
         });
 
@@ -116,11 +150,8 @@ public class RegistForm extends JPanel {
         panel.add(lbTitle);
         panel.add(description);
         panel.add(new JLabel("Full Name"), "gapy 10");
-        panel.add(fullnameTextField, "gapy 8");
-        panel.add(new JLabel("Gender"), "gapy 8");
-        panel.add(createGenderPanel());
-        panel.add(new JSeparator(), "gapy 5 5");
-        panel.add(new JLabel("Email"));
+        panel.add(fullnameTextField);
+        panel.add(new JLabel("Username"));
         panel.add(usernameTextField);
         panel.add(new JLabel("Password"), "gapy 8");
         panel.add(passwordTextField);
@@ -130,22 +161,7 @@ public class RegistForm extends JPanel {
         panel.add(registerButton, "gapy 20");
         panel.add(createLoginLabel(), "gapy 10");
         add(panel);
-    }
-
-    // Membuat checkbox gender options
-    private Component createGenderPanel() {
-        JPanel panel = new JPanel(new MigLayout("insets 0"));
-        panel.putClientProperty(FlatClientProperties.STYLE, ""
-                + "background:null");
-        jrMale = new JRadioButton("Male");
-        jrFemale = new JRadioButton("Female");
-        groupGender = new ButtonGroup();
-        groupGender.add(jrMale);
-        groupGender.add(jrFemale);
-        jrMale.setSelected(true);
-        panel.add(jrMale);
-        panel.add(jrFemale);
-        return panel;
+        add(backgroundLabel);
     }
 
     // Membuat tombol login
@@ -153,7 +169,7 @@ public class RegistForm extends JPanel {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panel.putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:null");
-        JButton cmdLogin = new JButton("<html><a style='color: #0EF644;' href=\"#\">Sign in here</a></html>");
+        JButton cmdLogin = new JButton("<html><a href=\"#\">Sign in here</a></html>");
         cmdLogin.putClientProperty(FlatClientProperties.STYLE, ""
                 + "border:3,3,3,3");
         cmdLogin.setContentAreaFilled(false);
@@ -172,13 +188,11 @@ public class RegistForm extends JPanel {
     }
 
     // Reset fields
-    public void reset(boolean bln) {
-        if (bln)
-        {
-            usernameTextField.setText("");
-            fullnameTextField.setText("");
-            passwordTextField.setText("");
-        }
+    public void reset() {
+        fullnameTextField.setText("");
+        usernameTextField.setText("");
+        passwordTextField.setText("");
+        confirmPassword.setText("");
     }
 
     //Metode
@@ -200,13 +214,11 @@ public class RegistForm extends JPanel {
 
     // Deklarasi
     private JTextField fullnameTextField;
-    private JRadioButton jrMale;
-    private JRadioButton jrFemale;
     private JTextField usernameTextField;
     private JPasswordField passwordTextField;
     private JPasswordField confirmPassword;
-    private ButtonGroup groupGender;
     private JButton registerButton;
     private PasswordStrengthStatus passwordStrengthStatus;
     private Icon checklist;
+    final private UserController userController;
 }

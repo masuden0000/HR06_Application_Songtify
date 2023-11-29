@@ -58,7 +58,9 @@ public class UserModel {
                     userid = resultSet.getString("userid");
                 }
         } catch (SQLException e) {
-            throw new SQLException(e.getMessage());
+            throw e;
+        } catch (NullPointerException e) {
+            throw e;
         }
         return userid;
     }

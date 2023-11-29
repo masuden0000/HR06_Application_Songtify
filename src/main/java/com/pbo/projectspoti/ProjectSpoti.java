@@ -5,7 +5,12 @@
 package com.pbo.projectspoti;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.pbo.projectspoti.View.MainFrame;
+import java.awt.EventQueue;
+import java.awt.Font;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -15,12 +20,18 @@ import javax.swing.UIManager;
  */
 public class ProjectSpoti {
     public static void main(String[] args) {
-        UIManager.put( "Button.arc", 999 );
-        try {
-            UIManager.setLookAndFeel( new FlatDarkLaf() );
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
+        // Styling default untuk komponen
+        FlatLaf.registerCustomDefaultsSource("themes");
+        // Install font Roboto
+        FlatRobotoFont.install();
+        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+        try
+        {
+            UIManager.setLookAndFeel(new FlatMacDarkLaf());
+        } catch (Exception ex)
+        {
+            System.err.println("Failed to initialize LaF");
         }
-        SwingUtilities.invokeLater(MainFrame::new);
+        EventQueue.invokeLater(() -> new MainFrame().setVisible(true));
     }
 }

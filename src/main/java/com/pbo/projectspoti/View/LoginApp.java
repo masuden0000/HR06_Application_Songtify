@@ -2,32 +2,64 @@ package com.pbo.projectspoti.View;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.pbo.projectspoti.Controller.FormsManager;
+import com.pbo.projectspoti.Controller.UserController;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import javax.swing.border.EmptyBorder;
 
 public class LoginApp extends JPanel {
 
     public LoginApp() {
+        userController = new UserController();
+        
         init();
     }
 
     // GUI
     private void init() {
         // Mengatur layout kontainer utama
-        setLayout(new MigLayout("fill", "[center]", "[center]"));
+        setLayout(new MigLayout("fill, insets 0 20 0 0", "[center]", "[center]"));
 
         // Inisiasi komponen
         usernameTextField = new JTextField();
         passwordTextField = new JPasswordField();
-        RememberMe = new JCheckBox("Remember me");
         loginButton = new JButton("Login");
 
+        // Background
+        JPanel panel2 = new JPanel(new MigLayout("fill", "[center]", "[center]"));
+        JLabel backgroundLabel = new JLabel();
+
+        ImageIcon originalIcon = new ImageIcon("src\\main\\resources\\images\\background2.jpg");
+        Image originalImage = originalIcon.getImage();
+
+        // Membuat gambar dengan ukuran yang sama dengan backgroundLabel
+        int width = 900;
+        int height = 680;
+        BufferedImage roundedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        // Menggambar gambar asli ke gambar dengan sudut yang melengkung (rounded)
+        Graphics2D g2d = roundedImage.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        // Menggambar gambar dengan sudut yang melengkung
+        int cornerRadius = 0; // Atur ukuran sudut bulatan
+        RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(0, 0, width, height, cornerRadius, cornerRadius);
+        g2d.setClip(roundedRectangle);
+        g2d.drawImage(originalImage, 0, 0, width, height, null);
+        g2d.dispose();
+
+        // Mengatur gambar yang sudah diubah menjadi ikon pada backgroundLabel
+        ImageIcon roundedIcon = new ImageIcon(roundedImage);
+        backgroundLabel.setBorder(new EmptyBorder(0, 10, 0, 0));
+        backgroundLabel.setIcon(roundedIcon);
+
         // Membuat kontainer untuk form login
-        JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 45", "fill,250:280"));
+        JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 50", "fill,360:360"));
         // Memberikan warna panel lebih terang dibanding background-nya sesuai tema Light dan Dark
         panel.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:20;"
@@ -45,11 +77,12 @@ public class LoginApp extends JPanel {
                 + "[dark]foreground:darken(@foreground,30%)");
 
         // Styling field username dan password
-        usernameTextField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your username or email");
+        usernameTextField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your username");
         passwordTextField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your password");
         passwordTextField.putClientProperty(FlatClientProperties.STYLE, ""
                 + "showRevealButton:true"); // Mengaktifkan fitur show/hidden password
         // Styling tombol login
+        passwordTextField.setFont(new Font("Monospace", Font.PLAIN, 12));
         loginButton.putClientProperty(FlatClientProperties.STYLE, ""
                 + "[light]background:darken(@background,10%);"
                 + "[dark]background:lighten(@background,10%);"
@@ -59,6 +92,14 @@ public class LoginApp extends JPanel {
         Color originalBackgroundColor = (Color) UIManager.get("Button.background");
         loginButton.putClientProperty("originalBackground", originalBackgroundColor);
         loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        loginButton.addActionListener(e -> {
+            boolean result = userController.login(usernameTextField.getText(), new String(passwordTextField.getPassword()));
+            
+            if(result) {
+                resetForm();
+            }
+        });
 
         // Hover tombol login
         loginButton.addMouseListener(new MouseAdapter() {
@@ -80,14 +121,14 @@ public class LoginApp extends JPanel {
         // Menambahkan komponen ke panel
         panel.add(lbTitle);
         panel.add(description);
-        panel.add(new JLabel("Email"), "gapy 8");
+        panel.add(new JLabel("Username"), "gapy 8");
         panel.add(usernameTextField);
         panel.add(new JLabel("Password"), "gapy 8");
         panel.add(passwordTextField);
-        panel.add(RememberMe, "grow 0");
         panel.add(loginButton, "gapy 10");
         panel.add(createSignupLabel(), "gapy 10");
         add(panel);
+        add(backgroundLabel);
     }
 
     // Membuat tombol register
@@ -95,7 +136,7 @@ public class LoginApp extends JPanel {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0)); // Membuat kontainer komponen sign-up
         panel.putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:null");
-        JButton registerButton = new JButton("<html><a style='color: #0EF644;' href=\"#\">Sign up</a></html>");
+        JButton registerButton = new JButton("<html><a href=\"#\">Sign up</a></html>");
         registerButton.setForeground(new Color(0, 255, 0));
 
         registerButton.putClientProperty(FlatClientProperties.STYLE, ""
@@ -123,14 +164,15 @@ public class LoginApp extends JPanel {
     public String getPassword() {
         return passwordTextField.getText();
     }
-
-    public void loginUsers(ActionListener actionListener) {
-        loginButton.addActionListener(actionListener);
+    
+    public void resetForm() {
+        usernameTextField.setText("");
+        passwordTextField.setText("");
     }
 
     // Deklarasi
     private JTextField usernameTextField;
     private JPasswordField passwordTextField;
-    private JCheckBox RememberMe;
     private JButton loginButton;
+    private UserController userController;
 }
