@@ -36,7 +36,7 @@ public class MainFrame extends JFrame {
 
     private void init() {
         // Nama aplikasi
-        setTitle("Spotify");
+        setTitle("Songtify");
         
         // Ukuran layar
         int FRAME_WIDTH = 1200;
