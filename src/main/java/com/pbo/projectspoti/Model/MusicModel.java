@@ -74,7 +74,7 @@ public class MusicModel {
         String sql = "SELECT playlistid, title, description, playlist, cover_url, username " +
                 "FROM playlist " +
                 "INNER JOIN users " +
-                "ON playlist.author = users.userid";
+                "ON playlist.author = users.userid ORDER BY datetime DESC";
         try (PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -124,7 +124,7 @@ public class MusicModel {
      public List<Playlist> getAllUserPlaylist(String userid) {
         List<Playlist> playlists = new ArrayList<>();
         String sql = "SELECT playlistid, title, description, cover_url " +
-                "FROM playlist WHERE author = ?" ;
+                "FROM playlist WHERE author = ? ORDER BY datetime DESC" ;
          try (PreparedStatement statement = connection.prepareStatement(sql);) {
                 statement.setString(1, userid);
                 
@@ -176,7 +176,7 @@ public class MusicModel {
      
     public String addToPlaylist(String songid, String playlistid) {
         String playlistId = "";
-        String sql = "UPDATE playlist SET playlist = array_append(playlist, ?) WHERE playlistid = ? RETURNING playlistid" ;
+        String sql = "UPDATE playlist SET playlist = array_append(playlist, ?), datetime = NOW() WHERE playlistid = ? RETURNING playlistid" ;
         try (PreparedStatement statement = connection.prepareStatement(sql);) {
                 statement.setString(1, songid);
                 statement.setString(2, playlistid);
@@ -209,7 +209,7 @@ public class MusicModel {
     
         public String deleteFromPlaylist(String songid, String playlistid) {
         String playlistId = "";
-        String sql = "UPDATE playlist SET playlist = ARRAY_REMOVE(playlist, ?) WHERE playlistid = ? RETURNING playlistid" ;
+        String sql = "UPDATE playlist SET playlist = ARRAY_REMOVE(playlist, ?), datetime = NOW() WHERE playlistid = ? RETURNING playlistid" ;
         try (PreparedStatement statement = connection.prepareStatement(sql);) {
                 statement.setString(1, songid);
                 statement.setString(2, playlistid);

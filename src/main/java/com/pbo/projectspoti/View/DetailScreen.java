@@ -154,7 +154,9 @@ public class DetailScreen extends JPanel {
             playlistDetailTitleLabel.setText(MainScreen.playlistData.getTitle());
         });
         
-        buttonPanel.add(BPlay);
+        if (MainScreen.playlistData.getPlayList().size() != 0) {
+            buttonPanel.add(BPlay);
+        }
                 
         // lagu
         songPanel = new JPanel(new GridLayout(MainScreen.playlistData.getPlayList().size(), 1));
