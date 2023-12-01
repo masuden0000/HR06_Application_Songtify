@@ -33,13 +33,19 @@ public class PlaylistForm extends JPanel {
                 + "arc:20;"
                 + "[light]background:darken(@background,3%);"
                 + "[dark]background:lighten(@background,3%)");
-        BSetting = new JButton("Setting");
-        BSetting.putClientProperty(FlatClientProperties.STYLE, ""
+        BProfile = new JButton("Profile");
+        BProfile.putClientProperty(FlatClientProperties.STYLE, ""
                 + "[light]background:darken(@background,10%);"
                 + "[dark]background:lighten(@background,10%);"
                 + "borderWidth:0;"
                 + "focusWidth:0;"
                 + "innerFocusWidth:0");
+        BProfile.addActionListener(e -> {
+            FlatAnimatedLafChange.showSnapshot();
+            CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
+            cardLayout.show(mainPanel, "panelProfile");
+            FlatAnimatedLafChange.hideSnapshotWithAnimation();
+        });
         BBack = new JButton("Back");
         BBack.putClientProperty(FlatClientProperties.STYLE, ""
                 + "[light]background:darken(@background,10%);"
@@ -54,7 +60,7 @@ public class PlaylistForm extends JPanel {
             FlatAnimatedLafChange.hideSnapshotWithAnimation();
         });
         navbarPanel.add(BBack);
-        navbarPanel.add(BSetting);
+        navbarPanel.add(BProfile);
         
         // Break line (pembatas)
         separator1 = new JSeparator();
@@ -189,7 +195,7 @@ public class PlaylistForm extends JPanel {
     private JTextArea descPlaylistField;
     private JSeparator separator1;
     private String coverPlaylistField = "";
-    private JButton BSubmit, BBack, BSetting;
+    private JButton BSubmit, BBack, BProfile;
     private String[] coverUrlList = {"https://i.pinimg.com/564x/57/2b/fa/572bfadc9b5c5fc6658172f4202ff780.jpg",
         "https://i.pinimg.com/564x/84/d3/74/84d374f8af97c6ba0f9ef20bd53b5f01.jpg",
         "https://i.pinimg.com/564x/00/cb/5d/00cb5dd2a1b3079cd192ae58e17f249f.jpg",

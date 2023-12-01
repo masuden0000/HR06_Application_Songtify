@@ -48,14 +48,14 @@ public class DetailScreen extends JPanel {
                 + "arc:20;"
                 + "[light]background:darken(@background,3%);"
                 + "[dark]background:lighten(@background,3%)");
-        BSetting = new JButton("Profile");
-        BSetting.putClientProperty(FlatClientProperties.STYLE, ""
+        BProfile = new JButton("Profile");
+        BProfile.putClientProperty(FlatClientProperties.STYLE, ""
                 + "[light]background:darken(@background,10%);"
                 + "[dark]background:lighten(@background,10%);"
                 + "borderWidth:0;"
                 + "focusWidth:0;"
                 + "innerFocusWidth:0");
-        BSetting.addActionListener(e -> {
+        BProfile.addActionListener(e -> {
             FlatAnimatedLafChange.showSnapshot();
             CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
             cardLayout.show(mainPanel, "panelProfile");
@@ -75,7 +75,7 @@ public class DetailScreen extends JPanel {
             FlatAnimatedLafChange.hideSnapshotWithAnimation();
         });
         navbarPanel.add(BBack);
-        navbarPanel.add(BSetting);
+        navbarPanel.add(BProfile);
         
         // Break line (pembatas)
         separator1 = new JSeparator();
@@ -235,7 +235,7 @@ public class DetailScreen extends JPanel {
     private JLabel coverImage, detailTitleLabel, detailSingerLabel, detailCoverImage, detailAlbumLabel, playlistDetailTitleLabel;
     private JTextArea descriptionLabel;
     private JLabel playlistTypeLabel, playlistTitleLabel, playlistAuthorLabel;
-    private JButton BSetting, BBack, BPlay, BDelPlaylist;
+    private JButton BProfile, BBack, BPlay, BDelPlaylist;
     private ImageIcon coverIcon, playIcon;
     private JScrollPane  scrollPane;
     private MusicController musicController;

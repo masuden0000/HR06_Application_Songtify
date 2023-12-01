@@ -32,8 +32,8 @@ public class ProfileScreen extends JPanel {
                 + "arc:20;"
                 + "[light]background:darken(@background,3%);"
                 + "[dark]background:lighten(@background,3%)");
-        BSetting = new JButton("Setting");
-        BSetting.putClientProperty(FlatClientProperties.STYLE, ""
+        BProfile = new JButton("Profile");
+        BProfile.putClientProperty(FlatClientProperties.STYLE, ""
                 + "[light]background:darken(@background,10%);"
                 + "[dark]background:lighten(@background,10%);"
                 + "borderWidth:0;"
@@ -53,7 +53,7 @@ public class ProfileScreen extends JPanel {
             FlatAnimatedLafChange.hideSnapshotWithAnimation();
         });
         navbarPanel.add(BBack);
-        navbarPanel.add(BSetting);
+        navbarPanel.add(BProfile);
         
         // Break line (pembatas)
         separator1 = new JSeparator();
@@ -81,6 +81,7 @@ public class ProfileScreen extends JPanel {
             int result = JOptionPane.showConfirmDialog(null, "Apakah anda yakin ingin keluar?", "Konfirmasi keluar", JOptionPane.OK_CANCEL_OPTION);
 
             if (result == JOptionPane.YES_OPTION) {
+                MusicPlayer.getPlayer().close();
                 FlatAnimatedLafChange.showSnapshot();
                 EncryptHelper.deleteLogin("user.txt");
                 FormsManager.getInstance().showForm(new LoginApp());
@@ -106,5 +107,5 @@ public class ProfileScreen extends JPanel {
     private JLabel usernameLabel, fullnameLabel, avatarLabel;
     private ImageIcon avatarIcon;  
     final private JSeparator separator1;
-    final private JButton BLogout, BBack, BSetting;
+    final private JButton BLogout, BBack, BProfile;
 }

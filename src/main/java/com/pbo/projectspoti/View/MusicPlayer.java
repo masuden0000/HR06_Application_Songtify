@@ -192,6 +192,11 @@ public class MusicPlayer extends JPanel implements ActionListener {
             play.doClick();
         }
     }
+    
+    public static Player getPlayer() {
+        return player;
+    }
+
     // Play new playlist
     public void PlayNew(Playlist playlist) {
         play.doClick();
@@ -244,7 +249,17 @@ public class MusicPlayer extends JPanel implements ActionListener {
                     isPlay = true;
                     isStart = false;
                     executorService.submit(runnablePlay);
-                    
+
+                    detailTitleLabel.setText(listSongs.get(order).getTitle());
+                    detailSingerLabel.setText(listSongs.get(order).getSinger());
+                    detailCoverIcon = ImageHelper.createImageFromURL(listSongs.get(order).getCover_url(), 210, 210, true);
+                    if (detailCoverIcon != null) {
+                        // Tampilkan gambar di dalam JLabel
+                        detailCoverImage.setIcon(detailCoverIcon);
+                    } else {
+                        System.out.println("Failed to load image from URL: " + listSongs.get(order).getCover_url());
+                    }
+                    detailAlbumLabel.setText(listSongs.get(order).getAlbum());
                     if(listSongs.size() == 1) {
                         nextSongLabel.setText(listSongs.get(order).getSinger()+ " - " + listSongs.get(order).getTitle());
                     } else {
@@ -460,7 +475,7 @@ public class MusicPlayer extends JPanel implements ActionListener {
     private File myFile = null;
     private String filename, filePath;
     private long totalLength, pauseLength;
-    private Player player;
+    private static Player player;
     private boolean isPlay = false;
     private boolean isStart = true;
     String[] title;

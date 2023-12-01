@@ -73,16 +73,6 @@ public class SongList extends JPanel{
                 + "innerFocusWidth:0");
 
         BPlaySong.addActionListener(e -> {
-                detailTitleLabel.setText(song.getTitle());
-                detailSingerLabel.setText(song.getSinger());
-                detailCoverIcon = ImageHelper.createImageFromURL(song.getCover_url(), 210, 210, true);
-                if (detailCoverIcon != null) {
-                    // Tampilkan gambar di dalam JLabel
-                    detailCoverImage.setIcon(detailCoverIcon);
-                } else {
-                    System.out.println("Failed to load image from URL: " + song.getCover_url());
-                }
-                detailAlbumLabel.setText(song.getAlbum());
                 if (MainScreen.isPlayButton != null) {
                    // Reset the background color of the previous selected panel
                    MainScreen.isPlayButton.setIcon(playIcon);
@@ -171,15 +161,6 @@ public class SongList extends JPanel{
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                detailTitleLabel.setText(song.getTitle());
-                detailSingerLabel.setText(song.getSinger());
-                detailCoverIcon = ImageHelper.createImageFromURL(song.getCover_url(), 210, 210, true);
-                if (detailCoverIcon != null) {
-                    detailCoverImage.setIcon(detailCoverIcon);
-                } else {
-                    System.out.println("Failed to load image from URL: " + song.getCover_url());
-                }
-                detailAlbumLabel.setText(song.getAlbum());
                 if (MainScreen.isPlayButton != null) {
                     // Reset the background color of the previous selected panel
                     MainScreen.isPlayButton.setIcon(playIcon);
