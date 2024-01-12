@@ -22,4 +22,4 @@ This application is built using java swing with some help such as using:
 
 ## Screenshots
 
-![App Screenshot](./PPBO PROJECT.png)
+![App Screenshot](./screenshot.png)
